@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
  import PropTypes from 'prop-types';
 
 class Searchbar extends Component {
@@ -19,7 +19,7 @@ class Searchbar extends Component {
         this.setState({ query: '' })
     }
     render() {
-        const { query } = this.state
+    
         return (<header className="Searchbar">
             <form className="SearchForm" onSubmit={this.handleSubmit}>
                 <button type="submit" className="SearchForm-button">
