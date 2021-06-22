@@ -218,8 +218,20 @@ img {
 .Button:focus {
   background-color: #303f9f;
 }
-.Button__container{
+.Button__container {
   display: flex;
   justify-content: center;
   margin-top: 30px;
+}
+.spinner-conteiner {
+  text-align: center;
+  margin-top: 20px;
+}
+.modalImg {
+  width: 900px;
+  height: 600px;
+}
+.spinner {
+  text-align: center;
+  margin-top: 20px;
 }

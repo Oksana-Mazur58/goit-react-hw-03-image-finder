@@ -4,10 +4,10 @@ import './index.css'
 import Modal from './component/Modal'
 import ImageGallery from './component/ImageGallery'
 import Searchbar from './component/Searchbar'
-// import Loader from './component/Loader'
+import Spinner from './component/Loader'
 import Button from './component/Button'
 import newsApi from './services/news-api'
-import Loader from "react-loader-spinner";
+
 
 
 
@@ -22,8 +22,12 @@ class App extends Component {
         currentPage: 1,
         searchQuery: '',
         isLoading: false,
-        error: null
+        error: null,
+        showModal: false,
+        modalImage: '',
+        modalAlt:'',
     }
+   
     componentDidUpdate(prevProps, prevState) {
         if (prevState.searchQuery !== this.state.searchQuery) {
          this.fetchImages()   
@@ -52,23 +56,42 @@ class App extends Component {
                     currentPage: prevState.currentPage + 1,
 
                 }))
+           this.scrollWindow();
        }).catch(error=>this.setState({error}))
            .finally(() => this.setState({ isLoading: false }))
     }
+    scrollWindow() {
+    window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
+  }
+     openModal = (url, alt) => {
+        this.setState(({showModal})=>({
+            showModal: !showModal,
+            modalImage: url,
+            modalAlt: alt
+        }))
+     }
+     closeModal = () => {
+        this.setState(({showModal})=>({
+            showModal: !showModal,
+            modalImage: '',
+            modalAlt: '',
+        }))
+    }
     render() {
-        const { images, isLoading, error} = this.state
+        const { images, isLoading, error, showModal, modalImage, modalAlt} = this.state
         return (
             <div>
-                {error &&alert("Something went wrong. Try again!")}
+                {showModal && <Modal onCloseModal={this.closeModal}>
+                    <img className="modalImg" src={modalImage} alt={modalAlt} />
+                </Modal>}
+                {error && alert("Something went wrong. Try again!")}
                 <Searchbar onSubmit={this.onChangeQuery} />
-                {isLoading &&  <Loader
-        type="Puff"
-        color="#00BFFF"
-        height={100}
-        width={100}
-        timeout={3000} //3 secs
-      />}
-                <ImageGallery images={images} />
+                {isLoading &&  <Spinner/>}
+                <ImageGallery images={images}
+                    onOpenModal={this.openModal}/>
            
                 {images.length>0 &&(<Button onClick={this.fetchImages} />)}
             </div>

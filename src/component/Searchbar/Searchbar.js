@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+ import PropTypes from 'prop-types';
 
 class Searchbar extends Component {
+     static = {
+        onSubmit: PropTypes.func.isRequired
+    }
+   
     state = {
         query: ''
     }
@@ -26,8 +31,8 @@ class Searchbar extends Component {
                     type="text"
                     value={this.state.query}
                     onChange={this.handleChange}
-                    autocomplete="off"
-                    autofocus
+                    autoComplete="off"
+                    autoFocus
                     placeholder="Search images and photos"
                 />
             </form>
